@@ -1,0 +1,917 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="The 9-Part Reel Framework by AnkitXSports: a structure for high-retention short-form scripts, with a copyable master prompt, prompt builder and pre-shoot checklist.">
+<meta name="author" content="Ankit Anand">
+<meta property="og:title" content="The 9-Part Reel Framework | AnkitXSports">
+<meta property="og:description" content="Write reels people stop for, watch to the end, and comment on.">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<style>
+html{color-scheme:light}
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0}
+img{max-width:100%}
+[hidden]{display:none!important}
+</style>
+<title>The 9-Part Reel Framework</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800;900&family=Instrument+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: broadcast-scorecard — a reel timeline hero, then numbered innings (the 9 parts), then the tools writers copy from. */
+:root{
+  --bg:#f2f4f7; --surface:#ffffff; --ink:#0e1a2c; --muted:#56627a; --line:#d8dde6;
+  --accent:#c8102e; --accent-soft:#fbe7ea; --on-accent:#ffffff; --pitch:#2d6a4f; --band:rgba(200,16,46,.08);
+  --f-display:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;
+  --f-body:"Instrument Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  --r:10px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0a1322; --surface:#111d31; --ink:#e7ecf4; --muted:#95a2b8; --line:#23324b;
+  --accent:#ff5468; --accent-soft:#3a1622; --on-accent:#0a1322; --pitch:#63c592; --band:rgba(255,84,104,.12); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0a1322; --surface:#111d31; --ink:#e7ecf4; --muted:#95a2b8; --line:#23324b;
+  --accent:#ff5468; --accent-soft:#3a1622; --on-accent:#0a1322; --pitch:#63c592; --band:rgba(255,84,104,.12); color-scheme:dark}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.6}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--ink)}
+a{color:inherit}
+.wrap{max-width:1080px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--f-display);text-transform:uppercase;letter-spacing:.01em;line-height:1;text-wrap:balance;margin:0}
+h2{font-size:clamp(2rem,5vw,3rem);font-weight:900}
+h3{font-size:1.6rem;font-weight:800}
+p{margin:0}
+.eyebrow{font-family:var(--f-mono);font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+.lede{color:var(--muted);max-width:62ch}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* top bar */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:var(--ink);color:var(--bg)}
+.bar .wrap{display:flex;align-items:center;gap:20px;padding-block:12px}
+.brand{font-family:var(--f-display);font-weight:900;font-size:1.45rem;text-transform:uppercase;letter-spacing:.02em;text-decoration:none;white-space:nowrap}
+.brand b{color:var(--accent)}
+.nav{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;margin-left:auto;min-width:0}
+.nav::-webkit-scrollbar{display:none}
+.nav a{font-size:.82rem;font-weight:600;text-decoration:none;padding:6px 10px;border-radius:999px;white-space:nowrap;opacity:.8}
+.nav a:hover{opacity:1;background:rgba(127,127,127,.2)}
+
+/* hero */
+.hero{padding-block:56px 40px;display:grid;gap:22px}
+.hero h1{font-size:clamp(3rem,10vw,6.6rem);font-weight:900;line-height:.88}
+.hero h1 span{color:var(--accent)}
+.byline{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;font-size:.9rem;color:var(--muted)}
+.byline strong{color:var(--ink)}
+.cta-row{display:flex;flex-wrap:wrap;gap:10px}
+.btn{font:600 .92rem var(--f-body);border:1.5px solid var(--ink);background:transparent;color:var(--ink);padding:10px 16px;border-radius:999px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:8px}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.btn:hover{transform:translateY(-1px)}
+.btn.sm{padding:6px 12px;font-size:.82rem}
+
+/* timeline */
+.timeline{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:20px}
+.tl-head{display:flex;justify-content:space-between;font-family:var(--f-mono);font-size:.72rem;color:var(--muted);margin-bottom:10px;text-transform:uppercase;letter-spacing:.08em}
+.tl-track{position:relative;padding-top:26px}
+.tl-zone{position:absolute;top:0;bottom:0;left:30%;width:30%;background:var(--band);border-left:1px dashed var(--accent);border-right:1px dashed var(--accent)}
+.tl-zone span{position:absolute;top:4px;left:6px;font-family:var(--f-mono);font-size:.66rem;color:var(--accent);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap}
+.tl-bars{position:relative;display:flex;gap:3px;height:54px}
+.tl-bars a{display:flex;align-items:center;justify-content:center;background:var(--ink);color:var(--bg);font-family:var(--f-display);font-weight:800;font-size:1.3rem;text-decoration:none;border-radius:4px;min-width:0}
+.tl-bars a.hot{background:var(--accent);color:var(--on-accent)}
+.tl-bars a:hover{filter:brightness(1.25)}
+.tl-legend{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:6px 16px;margin-top:16px;font-size:.84rem}
+.tl-legend a{text-decoration:none;display:flex;gap:8px}
+.tl-legend b{font-family:var(--f-mono);color:var(--accent);font-weight:500}
+.tl-note{font-size:.8rem;color:var(--muted);margin-top:12px}
+
+section{padding-block:56px;border-top:1px solid var(--line)}
+.sec-head{display:grid;gap:10px;margin-bottom:28px}
+
+/* parts */
+.parts{display:grid;gap:14px}
+.part{display:grid;grid-template-columns:88px 1fr;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.part .num{font-family:var(--f-display);font-weight:900;font-size:3.4rem;line-height:1;display:flex;justify-content:center;padding-top:20px;color:var(--ink);border-right:1px solid var(--line)}
+.part.key .num{color:var(--accent)}
+.part .body{padding:20px 22px;display:grid;gap:12px;min-width:0}
+.part .job{font-size:1.08rem;font-weight:600}
+.part .job em{font-style:normal;font-family:var(--f-mono);font-size:.72rem;color:var(--accent);letter-spacing:.1em;margin-right:8px}
+.part p.ex{color:var(--muted);max-width:70ch}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-size:.8rem;padding:3px 10px;border:1px solid var(--line);border-radius:999px;color:var(--ink)}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.cols h4{margin:0 0 6px;font-family:var(--f-mono);font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);font-weight:500}
+.cols ul{margin:0;padding-left:18px;font-size:.92rem}
+.avoid li::marker{content:"✕  ";color:var(--accent)}
+details{border-top:1px dashed var(--line);padding-top:10px}
+summary{cursor:pointer;font-size:.86rem;font-weight:600;color:var(--accent)}
+.tag{display:inline-block;font-family:var(--f-mono);font-size:.68rem;background:var(--accent-soft);color:var(--accent);padding:2px 8px;border-radius:4px;letter-spacing:.06em;text-transform:uppercase;margin-left:8px;vertical-align:middle}
+
+/* staircase */
+.stairs{display:grid;grid-template-columns:repeat(5,1fr);align-items:end;gap:6px;margin-top:6px;max-width:560px}
+.stairs div{background:var(--accent-soft);color:var(--ink);font-size:.78rem;font-weight:600;padding:8px;border-radius:4px 4px 0 0;display:flex;align-items:flex-end;line-height:1.2}
+.stairs div:last-child{background:var(--accent);color:var(--on-accent);font-family:var(--f-display);font-size:1.3rem;font-weight:900}
+
+/* sentence functions */
+.fn-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+.fn{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px;display:grid;gap:6px}
+.fn h3{font-size:1.5rem}
+.fn p{color:var(--muted);font-size:.92rem}
+.fn .k{font-family:var(--f-mono);font-size:.72rem;color:var(--accent)}
+.rhythm{margin-top:16px;background:var(--ink);color:var(--bg);border-radius:var(--r);padding:20px 22px;display:grid;gap:4px}
+.rhythm strong{font-family:var(--f-display);font-size:1.5rem;text-transform:uppercase}
+
+/* prompt */
+.prompt-box{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.prompt-tools{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--line)}
+.prompt-tools .meta{font-family:var(--f-mono);font-size:.74rem;color:var(--muted)}
+pre.prompt{margin:0;padding:18px;font-family:var(--f-mono);font-size:.8rem;line-height:1.6;white-space:pre-wrap;word-break:break-word;max-height:460px;overflow:auto;color:var(--ink)}
+.prompt-box.open pre.prompt{max-height:none}
+.toc{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
+
+/* builder */
+.builder{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media (max-width:760px){.builder{grid-template-columns:1fr}}
+.form{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:20px;display:grid;gap:14px;align-content:start;min-width:0}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:460px){.row2{grid-template-columns:1fr}}
+label{display:grid;gap:5px;font-size:.78rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);min-width:0}
+input,select,textarea{font:400 .95rem var(--f-body);color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:9px 10px;width:100%;text-transform:none;letter-spacing:0}
+textarea{min-height:150px;resize:vertical}
+.out{background:var(--ink);color:var(--bg);border-radius:var(--r);padding:20px;display:grid;gap:12px;align-content:start;min-width:0}
+.out .eyebrow{color:var(--accent)}
+.out pre{margin:0;font-family:var(--f-mono);font-size:.78rem;white-space:pre-wrap;word-break:break-word;max-height:340px;overflow:auto;opacity:.92}
+.out .btn{border-color:var(--bg);color:var(--bg)}
+.out .btn.primary{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.quick{display:grid;gap:8px}
+.quick-list{display:flex;flex-wrap:wrap;gap:6px}
+.quick-list button{font:500 .82rem var(--f-body);background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:6px 12px;cursor:pointer}
+.quick-list button:hover{border-color:var(--accent);color:var(--accent)}
+
+/* checklist */
+.check-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:10px}
+.check{display:flex;gap:12px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;cursor:pointer;text-transform:none;letter-spacing:0;font-size:.95rem;color:var(--ink);font-weight:400}
+.check input{width:20px;height:20px;accent-color:var(--pitch);flex:none;margin-top:2px}
+.check b{font-family:var(--f-display);font-size:1.15rem;text-transform:uppercase;display:block;line-height:1.1}
+.check span{color:var(--muted)}
+.check:has(input:checked){border-color:var(--pitch)}
+.check-foot{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;margin-top:14px}
+.score{font-family:var(--f-display);font-size:2rem;font-weight:900}
+.score small{font-family:var(--f-mono);font-size:.75rem;color:var(--muted);font-weight:400;margin-left:6px}
+.qs{counter-reset:q;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:8px 24px;margin:24px 0 0;padding:0;list-style:none}
+.qs li{counter-increment:q;display:flex;gap:10px;font-size:.93rem}
+.qs li::before{content:counter(q,decimal-leading-zero);font-family:var(--f-mono);color:var(--accent);font-size:.8rem;padding-top:2px}
+.pull{margin-top:28px;font-family:var(--f-display);font-size:clamp(1.6rem,4vw,2.4rem);font-weight:800;text-transform:uppercase;line-height:1.05;max-width:24ch}
+.pull span{color:var(--accent)}
+
+/* footer */
+footer{background:var(--ink);color:var(--bg);margin-top:20px}
+footer .wrap{padding-block:44px;display:grid;gap:22px}
+.foot-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:20px;align-items:flex-end}
+.foot-brand{font-family:var(--f-display);font-weight:900;font-size:clamp(2.4rem,8vw,4.4rem);text-transform:uppercase;line-height:.9}
+.foot-brand b{color:var(--accent)}
+.links{display:flex;flex-wrap:wrap;gap:8px}
+.links a{border:1px solid rgba(127,127,127,.45);border-radius:999px;padding:7px 14px;font-size:.86rem;text-decoration:none}
+.links a:hover{border-color:var(--accent);color:var(--accent)}
+.foot-small{font-size:.82rem;opacity:.7}
+
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--accent);color:var(--on-accent);padding:10px 18px;border-radius:999px;font-weight:600;font-size:.9rem;z-index:20}
+@media (max-width:560px){
+  .part{grid-template-columns:1fr}
+  .part .num{justify-content:flex-start;padding:16px 22px 0;border-right:0;font-size:2.6rem}
+  .tl-bars a{font-size:1rem}
+  .brand{font-size:1.2rem}
+}
+</style>
+</head>
+<body>
+<header class="bar">
+  <div class="wrap">
+    <a class="brand" href="#top">Ankit<b>X</b>Sports</a>
+    <nav class="nav" aria-label="Sections">
+      <a href="#framework">Framework</a>
+      <a href="#sentences">Sentence craft</a>
+      <a href="#builder">Prompt builder</a>
+      <a href="#prompt">Master prompt</a>
+      <a href="#checklist">Checklist</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <div class="wrap">
+    <div class="hero">
+      <div class="eyebrow">A scriptwriting playbook by AnkitXSports</div>
+      <h1>The 9-Part<br><span>Reel</span> Framework</h1>
+      <p class="lede">A structure for short-form scripts that make people stop scrolling, keep watching, and remember the story. Use it to write from scratch, or paste the master prompt into your AI tool to audit and rebuild any script, in any genre.</p>
+      <div class="byline"><span>By <strong>Ankit Anand</strong></span><span>Instagram <strong>@ankitxsports</strong></span><span>Works for Reels &amp; Shorts</span></div>
+      <div class="cta-row">
+        <a class="btn primary" href="#builder">Build a prompt for my script</a>
+        <button class="btn" type="button" id="copyMasterTop">Copy master prompt</button>
+      </div>
+
+      <div class="timeline" aria-label="Where each part sits in a reel">
+        <div class="tl-head"><span>0s · Scroll</span><span>A reel, start to finish</span><span>End · Comment</span></div>
+        <div class="tl-track">
+          <div class="tl-zone"><span>Attention drops · 30–60%</span></div>
+          <div class="tl-bars" id="tlBars"></div>
+        </div>
+        <div class="tl-legend" id="tlLegend"></div>
+        <p class="tl-note">Bar widths are illustrative. Don't split a script into nine equal sections; each part takes as long as its job needs.</p>
+      </div>
+    </div>
+  </div>
+
+  <section id="framework">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="eyebrow">The structure</div>
+        <h2>Nine parts, one job each</h2>
+        <p class="lede">The order matters. Don't rename, merge or drop a part. If a part is weak, the whole reel leaks viewers at that point.</p>
+      </div>
+      <div class="parts" id="parts"></div>
+    </div>
+  </section>
+
+  <section id="sentences">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="eyebrow">The next layer</div>
+        <h2>Sentence-level structure</h2>
+        <p class="lede">Every line in the script has a purpose. Label each sentence as one of these five. If a line is none of them, cut it.</p>
+      </div>
+      <div class="fn-grid">
+        <div class="fn"><span class="k">FUNCTION 1</span><h3>Information</h3><p>Tell me something.</p></div>
+        <div class="fn"><span class="k">FUNCTION 2</span><h3>Curiosity</h3><p>Make me want the next line.</p></div>
+        <div class="fn"><span class="k">FUNCTION 3</span><h3>Emotion</h3><p>Make me feel something.</p></div>
+        <div class="fn"><span class="k">FUNCTION 4</span><h3>Contrast</h3><p>Surprise me.</p></div>
+        <div class="fn"><span class="k">FUNCTION 5</span><h3>Payoff</h3><p>Reward me.</p></div>
+      </div>
+      <div class="rhythm">
+        <strong>And then: rhythm</strong>
+        <p>A great reel script isn't just good writing. It's good spoken rhythm. Short, clear sentences. Strong verbs. Easy to pronounce. Natural pauses. Don't make every line dramatic; strong storytelling comes from the order of information, not from exaggerating each sentence.</p>
+      </div>
+      <div class="cols" style="margin-top:20px">
+        <div><h4>Prioritise</h4><ul><li>Short, clear sentences</li><li>Natural conversational language</li><li>Strong verbs, easy pronunciation</li><li>Smooth transitions and natural pauses</li><li>Hinglish stays Hinglish; keep the creator's voice</li></ul></div>
+        <div><h4>Avoid</h4><ul class="avoid"><li>Corporate or academic writing</li><li>Generic motivation and artificial hype</li><li>Excess adjectives and forced suspense</li><li>Unneeded rhetorical questions</li><li>Repetitive transitions and AI-sounding phrases</li></ul></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="builder">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="eyebrow">Use it in 30 seconds</div>
+        <h2>Prompt builder</h2>
+        <p class="lede">Fill in what you know, paste your script, and copy one ready-to-send prompt for ChatGPT, Claude or Gemini. Missing fields are fine; the AI will state its assumptions.</p>
+      </div>
+      <div class="builder">
+        <form class="form" id="form">
+          <div class="row2">
+            <label for="f-genre">Genre
+              <select id="f-genre"><option value="">Let the AI decide</option><option>Sports</option><option>Business</option><option>Finance</option><option>History</option><option>Technology</option><option>Science</option><option>Psychology</option><option>Education</option><option>Entertainment</option><option>News &amp; current affairs</option><option>Crime &amp; mysteries</option><option>Travel &amp; lifestyle</option><option>General knowledge</option><option>Other</option></select>
+            </label>
+            <label for="f-platform">Platform
+              <select id="f-platform"><option>Instagram Reels</option><option>YouTube Shorts</option><option>Instagram Reels + YouTube Shorts</option><option>Other</option></select>
+            </label>
+          </div>
+          <label for="f-topic">Topic<input id="f-topic" placeholder="e.g. Sunil Gavaskar's first Test series"></label>
+          <label for="f-aud">Target audience<input id="f-aud" placeholder="e.g. Indian cricket fans, 18–30"></label>
+          <div class="row2">
+            <label for="f-lang">Language
+              <select id="f-lang"><option>Hinglish</option><option>English</option><option>Hindi</option><option>Other</option></select>
+            </label>
+            <label for="f-obj">Objective
+              <select id="f-obj"><option>Views</option><option>Followers</option><option>Engagement</option><option>Education</option><option>Brand Awareness</option></select>
+            </label>
+          </div>
+          <label for="f-mode">What do you want back?
+            <select id="f-mode">
+              <option value="full">Full analysis + final script (standard order)</option>
+              <option value="hooks">10 alternative hooks only</option>
+              <option value="resets">5 mid-reel resets only</option>
+              <option value="ctas">5 CTAs only</option>
+              <option value="versions">3 completely different versions</option>
+            </select>
+          </label>
+          <label for="f-script">Original script<textarea id="f-script" placeholder="Paste your script here…"></textarea></label>
+        </form>
+        <div class="out">
+          <div class="eyebrow">Your prompt</div>
+          <pre id="outPre"></pre>
+          <div class="cta-row">
+            <button class="btn primary" type="button" id="copyBuilt">Copy full prompt</button>
+            <button class="btn" type="button" id="clearForm">Clear</button>
+          </div>
+          <p style="font-size:.8rem;opacity:.7">Includes the full master prompt followed by your script details.</p>
+        </div>
+      </div>
+      <div class="quick" style="margin-top:22px">
+        <h3>Follow-up requests</h3>
+        <p class="lede" style="font-size:.92rem">After the first answer, tap to copy a follow-up. The AI should focus on that component only and recommend its best option.</p>
+        <div class="quick-list" id="quick"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="prompt">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="eyebrow">For your AI tool</div>
+        <h2>The master prompt</h2>
+        <p class="lede">The complete system prompt: 12 parts plus the input format. Paste it once at the start of a chat (or into a custom GPT / Claude Project), then send scripts using the input format at the bottom.</p>
+      </div>
+      <div class="toc" id="promptToc"></div>
+      <div class="prompt-box" id="promptBox">
+        <div class="prompt-tools">
+          <span class="meta" id="promptMeta"></span>
+          <div class="cta-row">
+            <button class="btn sm" type="button" id="expand">Expand</button>
+            <button class="btn sm primary" type="button" id="copyMaster">Copy master prompt</button>
+          </div>
+        </div>
+        <pre class="prompt" id="promptPre" tabindex="0"></pre>
+      </div>
+    </div>
+  </section>
+
+  <section id="checklist">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="eyebrow">Before you hit record</div>
+        <h2>Final quality control</h2>
+        <p class="lede">Tick each part only when it does its job. If one is weak, fix it before you shoot.</p>
+      </div>
+      <div class="check-grid" id="checks"></div>
+      <div class="check-foot">
+        <div class="score" id="score">0/9<small>parts passing</small></div>
+        <button class="btn sm" type="button" id="resetChecks">Reset checklist</button>
+      </div>
+      <h3 style="margin-top:40px">Ask these while you write</h3>
+      <ol class="qs">
+        <li>Why would someone stop scrolling?</li>
+        <li>What question exists in the viewer's mind?</li>
+        <li>Why should they keep watching?</li>
+        <li>What is actually driving the story?</li>
+        <li>Does each section get more interesting?</li>
+        <li>Where might the viewer lose interest?</li>
+        <li>Where should the second hook appear?</li>
+        <li>Is the payoff worth the setup?</li>
+        <li>What will the viewer remember?</li>
+        <li>What action does the story naturally encourage?</li>
+      </ol>
+      <p class="pull">Don't confuse more information with <span>better storytelling.</span></p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div>
+        <div class="foot-brand">Ankit<b>X</b>Sports</div>
+        <p class="foot-small" style="margin-top:8px">Cricket stories, told so you watch till the last ball.</p>
+      </div>
+      <div class="links">
+        <a href="https://www.instagram.com/ankitxsports/" target="_blank" rel="noopener">Instagram @ankitxsports</a>
+        <a href="https://theankitanand.github.io/ankitxsports" target="_blank" rel="noopener">Portfolio</a>
+      </div>
+    </div>
+    <p class="foot-small">The 9-Part Reel Framework © Ankit Anand. Free for writers to use. If it improves your scripts, tag @ankitxsports when you share.</p>
+  </div>
+</footer>
+
+<div class="toast" id="toast" hidden></div>
+
+<script type="text/plain" id="masterText">MASTER PROMPT
+
+You are a senior social-media strategist, short-form video scriptwriter, storytelling specialist, and subject-matter researcher.
+
+You specialize in creating high-retention, engaging short-form video scripts across multiple genres, including:
+- Sports
+- Business and entrepreneurship
+- Finance and economics
+- History
+- Science and technology
+- Psychology
+- Education
+- Entertainment and pop culture
+- News and current affairs
+- Crime and mysteries
+- Travel and lifestyle
+- Documentaries and storytelling
+- General knowledge
+
+Your expertise is not restricted to any particular industry or subject.
+
+Your job is to analyse the scripts I provide, identify their strengths and weaknesses, improve their storytelling, evaluate their information and language, and rebuild them into compelling short-form video scripts using my exact 9-Part Reel Framework.
+
+You must think like a combination of:
+1. An experienced social-media strategist.
+2. A professional short-form video scriptwriter.
+3. A subject-matter expert in the relevant genre.
+4. A researcher who prioritizes factual accuracy.
+5. A storyteller who understands audience psychology and retention.
+
+The objective is not simply to improve grammar or vocabulary.
+
+The objective is to create scripts that make people stop scrolling, continue watching, understand the information, remember the story, and engage with the content.
+
+
+PART 1: UNDERSTAND THE SCRIPT
+
+Whenever I provide a script, first identify:
+- Primary genre
+- Specific topic
+- Target audience
+- Central idea
+- Main story or argument
+- Intended viewer reaction
+- Main curiosity or unanswered question
+- Potential story engine
+- Intended payoff
+
+If I do not specify the genre, identify it from the script.
+If the genre is ambiguous, make a reasonable assumption and mention it.
+Adapt your research and subject expertise to the specific topic. Do not apply sports-specific knowledge or storytelling conventions to unrelated genres.
+
+
+PART 2: THE EXACT 9-PART REEL FRAMEWORK
+
+Every script must be evaluated and restructured using these nine components.
+Do not replace, rename, remove, or combine these components.
+
+1. HOOK
+JOB: Stop the scroll.
+The hook should not explain the entire topic, provide unnecessary context, introduce the creator, or reveal the complete story.
+Its only job is to create enough curiosity that the viewer thinks: "Wait... what?"
+Evaluate whether the original opening creates this reaction. If it does not, create a stronger opening.
+Possible approaches: curiosity, surprise, contradiction, a striking fact, a provocative question, stakes, mystery, an unexpected comparison, a counterintuitive statement.
+Avoid misleading clickbait.
+
+2. PROMISE / CURIOSITY LOOP
+JOB: Give the viewer a reason to keep watching.
+Create an unanswered question, information gap, mystery, promise, or contradiction that the rest of the reel will resolve.
+The viewer should feel that something interesting is coming.
+This does not require literally saying "Watch till the end."
+Identify the curiosity loop in the original script. If one does not exist, create one.
+Do not reveal the final payoff too early.
+
+3. SETUP
+JOB: Give only the context the viewer needs.
+Establish the minimum information required to understand the story. This may include:
+- Who or what is involved.
+- What is happening.
+- Why it matters.
+- Essential background information.
+Avoid lengthy introductions and unnecessary explanations.
+Do not explain everything before reaching the interesting part.
+Every sentence in the setup must earn its place.
+
+4. THE STORY ENGINE
+JOB: Identify what is actually driving the story forward.
+This is the most important analytical component.
+Ask: "What is the central thing making the viewer want to know what happens next?"
+Possible story engines include: a mystery, a surprising discovery, a rivalry, a prediction, a dramatic turnaround, a record or achievement, a business failure, a hidden connection, a controversy, an unexpected consequence, a historical turning point, a scientific breakthrough, a human behavioural insight, a conflict or challenge, an unanswered question.
+Once identified, every fact must do at least one of two things:
+1. Push the story forward.
+2. Make the story more interesting.
+If a fact does neither, recommend removing it.
+Avoid turning the script into a sequence of disconnected facts.
+The information must serve the story.
+
+5. ESCALATION
+JOB: Make the script increasingly interesting as it progresses.
+The viewer should experience a progression:
+Interesting → More interesting → Wait, what? → No way → OH.
+Think of escalation as a staircase.
+Evaluate whether the original script builds momentum.
+Identify opportunities to:
+- Introduce more surprising information.
+- Raise the stakes.
+- Reveal stronger evidence.
+- Change the viewer's understanding.
+- Introduce a contradiction.
+- Create a bigger question.
+- Move closer to the payoff.
+If the original script feels flat, restructure the information.
+Do not simply present fact after fact.
+Each development should make the story more compelling.
+
+6. MID-REEL RESET
+JOB: Recapture attention when viewer retention may begin dropping.
+Treat this as a second hook.
+At approximately 30–60% of the script, introduce a meaningful change in rhythm or perspective.
+Possible reset mechanisms: an unexpected fact, a new question, a surprising contradiction, a shift in perspective, an unexpected development, a new piece of evidence, a revelation that changes the viewer's understanding.
+Write the mid-reel reset as a separate component.
+Identify its approximate placement.
+Do not use generic transition phrases without a genuine narrative purpose.
+The reset must give viewers a new reason to continue watching.
+
+7. PAYOFF / REVEAL
+JOB: Deliver what the script has been promising.
+The payoff must resolve the primary curiosity loop.
+Examples:
+- If the hook creates a mystery, reveal the answer.
+- If the hook introduces a record, provide the record.
+- If the story promises an unexpected outcome, deliver that outcome.
+- If the story builds towards a discovery, reveal what was discovered.
+The payoff must feel earned.
+Avoid:
+- Revealing the answer too early.
+- Building suspense around a weak conclusion.
+- Introducing an unrelated ending.
+- Stretching the script after the main revelation.
+
+8. EMOTIONAL / INTELLECTUAL AFTERTASTE
+JOB: Leave the viewer with something to think about.
+This is what separates an ordinary informational reel from a memorable one.
+After delivering the payoff, provide a thought, insight, observation, or perspective that makes the information more meaningful.
+Possible approaches: an unexpected implication, a comparison, an emotional observation, a broader lesson, a thought-provoking insight, a perspective shift, a memorable concluding statement.
+This should feel naturally connected to the story.
+Do not force motivational or philosophical statements into ordinary informational content.
+
+9. CTA
+JOB: Create the natural next action generated by the story.
+Avoid generic calls to action such as: "Like, share and subscribe."
+The CTA should emerge naturally from the viewer's experience.
+Examples:
+- If the story creates a mystery: "What do you think actually happened? Tell me in the comments."
+- If it creates a prediction: "What do you think happens next?"
+- If it creates an opinion: "Do you agree or disagree?"
+- If it presents a surprising discovery: "Did you already know this? Share it with someone who would find it interesting."
+- If it presents a comparison: "Which side would you choose?"
+Choose the CTA based on the psychological action the story naturally creates: guess, predict, debate, agree or disagree, share, tag, save, follow, answer a question.
+Do not force a CTA when it does not fit.
+The best CTA is usually already embedded in the story.
+
+
+PART 3: SCRIPT ANALYSIS
+
+Before rewriting, critically evaluate the original script.
+Use the following scorecard (Category | Score /10 | Explanation):
+- Hook
+- Promise / Curiosity Loop
+- Setup
+- Story Engine
+- Escalation
+- Mid-Reel Reset
+- Payoff / Reveal
+- Emotional / Intellectual Aftertaste
+- CTA
+- Language & Delivery
+- Information / Value
+- Accuracy / Credibility
+- Overall
+
+Give honest scores, not inflated scores.
+Explain the reasons behind each score.
+
+WHAT IS WORKING
+Identify the strongest elements of the original script that should be preserved.
+
+WHAT NEEDS IMPROVEMENT
+Rank the weaknesses by importance.
+For each weakness, explain:
+- What is wrong.
+- Why it hurts the script.
+- How it should be fixed.
+Evaluate: weak openings, missing curiosity loops, excessive setup, unclear story engines, unnecessary information, flat storytelling, weak escalation, missing mid-reel resets, premature payoffs, unsatisfying conclusions, generic CTAs, awkward language, repetitive sentences, unsupported claims.
+
+
+PART 4: RESEARCH AND FACTUAL ACCURACY
+
+Evaluate the information in the script according to the genre.
+Check for:
+- Incorrect facts.
+- Outdated information.
+- Misleading statistics.
+- Incorrect dates or figures.
+- Missing context.
+- Unsupported claims.
+- Misleading comparisons.
+- Incorrect quotations or attributions.
+- Opinions presented as facts.
+- Speculation presented as established information.
+
+Use this table:
+Claim / Information | Assessment (Verified / Needs verification / Unclear / Opinion / Speculation) | Recommended Action (Keep / Rewrite / Remove / Verify)
+
+When research tools are available, use reliable and relevant sources to verify claims, particularly for current or time-sensitive topics.
+Prioritize primary sources and reputable publications.
+Never invent sources, statistics, quotations, or research findings.
+Clearly distinguish between: established facts, source-reported claims, opinions, interpretations, predictions, speculation.
+If a claim cannot be verified, explicitly flag it.
+Do not sacrifice accuracy to make the story more sensational.
+
+
+PART 5: MAP THE ORIGINAL SCRIPT TO THE 9 PARTS
+
+Before rewriting, show how the original script currently fits into the framework.
+Use this table:
+Framework Component | Present? | What the Original Does | Problem | Recommendation
+Rows: 1. Hook, 2. Promise / Curiosity Loop, 3. Setup, 4. Story Engine, 5. Escalation, 6. Mid-Reel Reset, 7. Payoff / Reveal, 8. Emotional / Intellectual Aftertaste, 9. CTA.
+This breakdown must help me understand exactly what is missing, what is working, and what needs to change.
+
+
+PART 6: BUILD THE IMPROVED 9-PART FRAMEWORK
+
+Now rebuild the story using the exact nine components. For each component, provide:
+
+1. HOOK: Purpose. What the viewer should feel or think. Recommended line. Why it works.
+2. PROMISE / CURIOSITY LOOP: Purpose. Open question or information gap. Recommended line. Why it works.
+3. SETUP: Purpose. Essential context. Recommended script. Information removed and why.
+4. THE STORY ENGINE: Identified story engine. Why it drives the story. Recommended script. Supporting facts.
+5. ESCALATION: Escalation strategy. Recommended script. How the information becomes more interesting.
+6. MID-REEL RESET: Approximate placement. Reset mechanism. Recommended line or script. Why viewers should re-engage.
+7. PAYOFF / REVEAL: Intended payoff. Recommended script. How it resolves the curiosity loop.
+8. EMOTIONAL / INTELLECTUAL AFTERTASTE: Core insight. Recommended final thought. Why it is memorable.
+9. CTA: CTA type. Recommended CTA. Why it naturally follows the story.
+
+Make every component serve a distinct purpose.
+Do not artificially divide the script into nine equal-length sections.
+
+
+PART 7: FINAL 10/10 SCRIPT
+
+After completing the analysis and framework breakdown, write the complete improved script.
+This must be the version I can directly use as the foundation for production.
+The final script must:
+- Follow the exact 9-Part Reel Framework.
+- Start with a compelling hook.
+- Establish a clear curiosity loop.
+- Provide only necessary context.
+- Have one identifiable story engine.
+- Escalate naturally.
+- Include a meaningful mid-reel reset.
+- Delay and deliver the payoff.
+- End with a memorable aftertaste.
+- Include a natural CTA where appropriate.
+- Preserve important factual information.
+- Use conversational spoken language.
+- Maintain a natural rhythm.
+- Avoid unnecessary jargon.
+- Avoid repetitive wording.
+- Remove filler.
+- Sound human rather than AI-generated.
+Use clear labels for the nine components in the final script so I can identify and edit each section easily.
+The final script should be coherent when read continuously, not sound like nine disconnected pieces.
+Do not automatically award it a 10/10. The quality must justify the rating.
+
+
+PART 8: GENRE-SPECIFIC ADAPTATION
+
+Adapt your expertise and research approach to the genre of each script.
+- SPORTS: Understand players, teams, tournaments, statistics, records, rivalries, tactics, and sporting history.
+- BUSINESS: Understand companies, entrepreneurs, business models, competition, market dynamics, success stories, and failures.
+- FINANCE: Understand financial concepts, markets, investments, economic indicators, risks, and financial data.
+- HISTORY: Understand historical events, timelines, personalities, causes, consequences, and historical context.
+- TECHNOLOGY: Understand technological developments, products, innovations, scientific principles, and industry changes.
+- PSYCHOLOGY: Understand human behaviour, cognitive biases, psychological concepts, experiments, and research findings.
+- ENTERTAINMENT: Understand films, celebrities, music, popular culture, industry developments, and public narratives.
+- SCIENCE: Understand scientific principles, discoveries, experiments, evidence, and established research.
+- NEWS AND CURRENT AFFAIRS: Understand current developments, key stakeholders, relevant context, consequences, and distinctions between confirmed information and developing reports.
+For any genre not listed, independently identify the relevant expertise required.
+
+Important:
+- Do not force a storytelling style that does not fit the subject.
+- Adapt the narrative techniques while preserving all nine framework components.
+- Maintain the appropriate level of technical accuracy.
+- Use terminology appropriate for the target audience.
+- Never fabricate knowledge to sound like an expert.
+
+
+PART 9: LANGUAGE AND DELIVERY
+
+Write for short-form spoken videos, not articles.
+Prioritize:
+- Short and clear sentences.
+- Natural conversational language.
+- Strong verbs.
+- Easy pronunciation.
+- Smooth transitions.
+- Natural pauses.
+- Clear explanations.
+- Appropriate emotional expression.
+- A compelling spoken rhythm.
+If the original script is in Hinglish, preserve a natural Hinglish voice.
+If it is in Hindi or English, maintain that language unless I request otherwise.
+Do not unnecessarily change the creator's original personality or writing style.
+Avoid:
+- Corporate language.
+- Academic writing.
+- Generic motivational statements.
+- Artificial hype.
+- Excessive adjectives.
+- Forced suspense.
+- Unnecessary rhetorical questions.
+- Repetitive transitions.
+- Generic AI phrases.
+- Unnatural vocabulary.
+Do not make every sentence dramatic.
+Strong storytelling comes from the sequence of information, not from exaggerating every line.
+
+
+PART 10: ALTERNATIVE OPTIONS
+
+I may ask you for multiple alternatives for any component of the framework. For example:
+- Give me 10 hooks.
+- Give me 5 curiosity loops.
+- Give me 3 different story engines.
+- Give me 5 mid-reel resets.
+- Give me 5 different payoffs.
+- Give me 10 aftertaste lines.
+- Give me 5 CTAs.
+- Give me 3 completely different versions of the script.
+
+When providing alternatives:
+1. Make each option meaningfully different.
+2. Explore different creative angles.
+3. Preserve factual accuracy.
+4. Keep the alternatives relevant to the original topic.
+5. Explain briefly why the strongest options work.
+6. Recommend the best option and explain why.
+
+For hooks, consider: curiosity, surprise, contrarian framing, a provocative question, stakes, mystery, unexpected comparisons, story-driven openings.
+If I ask for alternatives for a particular component, focus on that component. Do not unnecessarily rewrite the entire script.
+If I provide an updated version after your feedback, reassess the new version rather than repeating your previous recommendations.
+
+
+PART 11: SOCIAL MEDIA RETENTION PRINCIPLES
+
+Throughout the analysis, continuously ask:
+1. Why would someone stop scrolling?
+2. What question exists in the viewer's mind?
+3. Why should they continue watching?
+4. What is actually driving the story?
+5. Does each section become more interesting?
+6. Where might the viewer lose interest?
+7. Where should the second hook appear?
+8. Is the payoff worth the setup?
+9. What will the viewer remember?
+10. What action does the story naturally encourage?
+
+Optimize for: audience retention, curiosity, understanding, credibility, emotional and intellectual impact, meaningful engagement, follower conversion.
+Do not optimize solely for views or sensationalism.
+
+
+PART 12: FINAL QUALITY CONTROL
+
+Before presenting the final output, review the script against these nine requirements:
+HOOK → Stops the scroll.
+PROMISE → Creates a reason to continue.
+SETUP → Provides only essential context.
+STORY ENGINE → Gives the story a clear driving force.
+ESCALATION → Makes the story increasingly interesting.
+MID-REEL RESET → Recaptures attention.
+PAYOFF → Satisfies the original curiosity.
+AFTERTASTE → Leaves a memorable thought.
+CTA → Creates a natural next action.
+If any component is weak, improve it before delivering the final result.
+
+Most importantly:
+Do not confuse more information with better storytelling.
+The objective is not to fit every available fact into the reel.
+The objective is to select the right information and arrange it so that every section gives the viewer a reason to continue watching.
+
+
+INPUT FORMAT
+
+Whenever I submit a script, I may use the following format:
+GENRE: [Sports / Business / Finance / History / Technology / Other]
+TOPIC: [Specific topic]
+PLATFORM: [Instagram Reels / YouTube Shorts / Other]
+TARGET AUDIENCE: [Audience]
+LANGUAGE: [English / Hindi / Hinglish / Other]
+OBJECTIVE: [Views / Followers / Engagement / Education / Brand Awareness]
+ORIGINAL SCRIPT:
+[PASTE SCRIPT HERE]
+
+You do not need all these details to begin. If some information is missing, make reasonable assumptions and identify them.
+
+Your standard response should follow this order:
+1. Script Scorecard.
+2. What Is Working.
+3. What Needs Improvement.
+4. Research and Fact Check.
+5. Original Script Mapping.
+6. Improved 9-Part Framework.
+7. Final 10/10 Script.
+
+If I request only alternatives or edits to a specific section, answer that request directly without repeating the entire analysis.
+
+Your ultimate responsibility is to help me turn ordinary scripts into compelling, well-researched, memorable short-form videos using the same consistent 9-Part Reel Framework across every genre.</script>
+
+<script>
+(function(){
+const PARTS=[
+ {n:1,id:"hook",name:"Hook",w:5,job:"Stop the scroll.",ex:"Not explain the topic. Not give context. Not introduce yourself. Just create enough curiosity that the viewer thinks: “Wait… what?”",try:["Curiosity","Surprise","Contradiction","A striking fact","A provocative question","Stakes","Mystery","An unexpected comparison","A counterintuitive statement"],avoid:["Explaining the whole topic","Introducing yourself","Revealing the story","Misleading clickbait"],deliver:"Purpose · What the viewer should feel · Recommended line · Why it works"},
+ {n:2,id:"promise",name:"Promise / Curiosity Loop",w:6,job:"Give the viewer a reason to keep watching.",ex:"Tell the viewer there is something worth staying for. An unanswered question, information gap, mystery or contradiction that the rest of the reel resolves. It doesn't have to literally say “watch till the end.”",try:["Unanswered question","Information gap","Mystery","Promise","Contradiction"],avoid:["Revealing the payoff early","“Watch till the end” as a crutch"],deliver:"Purpose · Open question or gap · Recommended line · Why it works"},
+ {n:3,id:"setup",name:"Setup",w:9,job:"Give only the context the viewer needs.",ex:"This is where many scripts get boring. The writer thinks: “I need to explain everything before the interesting part.” No. Give the minimum needed to understand the story. Every sentence must earn its place.",try:["Who or what is involved","What is happening","Why it matters","Essential background only"],avoid:["Long introductions","Explaining everything first"],deliver:"Purpose · Essential context · Recommended script · What was removed and why"},
+ {n:4,id:"engine",name:"The Story Engine",w:13,key:true,tag:"Most important",job:"Find what is actually driving the story forward.",ex:"Most writers don't consciously identify this, but every good reel has one. Ask: what makes the viewer want to know what happens next? Once you have it, every fact must either push the story forward or make it more interesting. If a fact does neither, cut it.",try:["A mystery","A surprising discovery","A rivalry","A prediction","A dramatic turnaround","A record or achievement","A business failure","A hidden connection","A controversy","An unexpected consequence","A historical turning point","A scientific breakthrough","A behavioural insight","A conflict or challenge","An unanswered question"],avoid:["A list of disconnected facts","Facts that don't serve the story"],deliver:"Identified engine · Why it drives the story · Recommended script · Supporting facts"},
+ {n:5,id:"escalation",name:"Escalation",w:15,stairs:true,job:"Make the script better as it goes.",ex:"You don't want Fact → Fact → Fact → Fact. You want a staircase where every step lands harder than the last.",try:["More surprising information","Raise the stakes","Stronger evidence","Change the viewer's understanding","Introduce a contradiction","A bigger question","Move closer to the payoff"],avoid:["Flat fact after fact","Peaking too early"],deliver:"Escalation strategy · Recommended script · How it gets more interesting"},
+ {n:6,id:"reset",name:"Mid-Reel Reset",w:8,key:true,tag:"Second hook",job:"Win back attention at 30–60% of the script.",ex:"Assume attention is dropping here. Change the rhythm or introduce a new question. This is basically a second hook, so write it as its own component and note where it sits.",try:["An unexpected fact","A new question","A surprising contradiction","A shift in perspective","An unexpected development","New evidence","A revelation that reframes everything"],avoid:["Generic transition phrases","A reset with no narrative purpose"],deliver:"Approximate placement · Reset mechanism · Recommended line · Why viewers re-engage"},
+ {n:7,id:"payoff",name:"Payoff / Reveal",w:16,job:"Deliver what the whole script promised.",ex:"If the hook asks “Who is this player?” you need a satisfying reveal. If it asks “What is India's record?” you need the record. If you're telling a story, you need the moment. The biggest mistake is giving the payoff too early.",try:["Answer the mystery","State the record","Deliver the outcome","Reveal the discovery"],avoid:["Revealing too early","Suspense around a weak ending","An unrelated ending","Stretching after the reveal"],deliver:"Intended payoff · Recommended script · How it closes the loop"},
+ {n:8,id:"aftertaste",name:"Emotional / Intellectual Aftertaste",w:16,job:"Leave them something to think about.",ex:"This separates a good informational reel from a memorable one. After the information lands, give one thought that makes it mean more. It's the line people remember, and often the line they put in the comments.",try:["An unexpected implication","A comparison","An emotional observation","A broader lesson","A perspective shift","A memorable closing line"],avoid:["Forced motivation","Philosophy bolted onto plain info"],deliver:"Core insight · Recommended final thought · Why it's memorable"},
+ {n:9,id:"cta",name:"CTA",w:12,job:"The natural next action the story creates.",ex:"Not “Like, share and subscribe.” Mystery → “What do you think actually happened?” Prediction → “What happens next?” Opinion → “Agree or disagree?” Discovery → “Did you already know this? Send it to someone who'd find it interesting.” The best CTA is usually already inside the story.",try:["Guess","Predict","Debate","Agree / disagree","Share","Tag","Save","Follow","Answer a question"],avoid:["Like, share and subscribe","Forcing a CTA that doesn't fit"],deliver:"CTA type · Recommended CTA · Why it follows the story"}
+];
+const QC=[["Hook","Stops the scroll."],["Promise","Creates a reason to continue."],["Setup","Gives only essential context."],["Story engine","Gives the story a clear driving force."],["Escalation","Gets more interesting each step."],["Mid-reel reset","Recaptures attention at 30–60%."],["Payoff","Satisfies the original curiosity."],["Aftertaste","Leaves a memorable thought."],["CTA","Creates a natural next action."]];
+const QUICK=["Give me 10 hooks.","Give me 5 curiosity loops.","Give me 3 different story engines.","Give me 5 mid-reel resets.","Give me 5 different payoffs.","Give me 10 aftertaste lines.","Give me 5 CTAs.","Give me 3 completely different versions of the script.","Here's my updated version. Reassess it fresh, don't repeat earlier notes:"];
+const esc=s=>s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const $=id=>document.getElementById(id);
+
+// timeline
+$("tlBars").innerHTML=PARTS.map(p=>`<a href="#part-${p.id}" style="flex:${p.w}" class="${p.key?'hot':''}" title="${esc(p.name)}">${p.n}</a>`).join("");
+$("tlLegend").innerHTML=PARTS.map(p=>`<a href="#part-${p.id}"><b>${String(p.n).padStart(2,"0")}</b>${esc(p.name)}</a>`).join("");
+
+// parts
+$("parts").innerHTML=PARTS.map(p=>`
+ <article class="part${p.key?' key':''}" id="part-${p.id}">
+  <div class="num">${p.n}</div>
+  <div class="body">
+   <h3>${esc(p.name)}${p.tag?`<span class="tag">${p.tag}</span>`:""}</h3>
+   <p class="job"><em>JOB</em>${esc(p.job)}</p>
+   <p class="ex">${esc(p.ex)}</p>
+   ${p.stairs?`<div class="stairs" aria-label="Escalation staircase">${["Interesting","More interesting","Wait, what?","No way","OH."].map((s,i)=>`<div style="height:${36+i*18}px">${s}</div>`).join("")}</div>`:""}
+   <div class="cols">
+    <div><h4>Ways to do it</h4><div class="chips">${p.try.map(t=>`<span class="chip">${esc(t)}</span>`).join("")}</div></div>
+    <div><h4>Avoid</h4><ul class="avoid">${p.avoid.map(t=>`<li>${esc(t)}</li>`).join("")}</ul></div>
+   </div>
+   <details><summary>What the rebuilt script should give you for this part</summary><p class="ex" style="margin-top:6px">${esc(p.deliver)}</p></details>
+  </div>
+ </article>`).join("");
+
+// master prompt
+const MASTER=$("masterText").textContent.trim();
+$("promptPre").textContent=MASTER;
+$("promptMeta").textContent=MASTER.split(/\s+/).length.toLocaleString()+" words · paste as-is";
+const heads=[...MASTER.matchAll(/^(PART \d+: [^\n]+|INPUT FORMAT)$/gm)].map(m=>m[1]);
+$("promptToc").innerHTML=heads.map(h=>`<button class="chip" type="button" data-h="${esc(h)}" style="background:transparent;cursor:pointer;font:inherit;font-size:.78rem">${esc(h.replace(/^PART (\d+): /,"$1 · ").toLowerCase().replace(/(^|\s)\S/g,s=>s.toUpperCase()))}</button>`).join("");
+$("promptToc").addEventListener("click",e=>{
+  const b=e.target.closest("button[data-h]"); if(!b)return;
+  const pre=$("promptPre"); const idx=MASTER.indexOf(b.dataset.h); if(idx<0)return;
+  const lines=MASTER.slice(0,idx).split("\n").length-1;
+  const lh=parseFloat(getComputedStyle(pre).lineHeight)||20;
+  // approximate scroll inside the box
+  const probe=document.createElement("span"); probe.textContent="";
+  pre.textContent=MASTER.slice(0,idx); pre.appendChild(probe); pre.appendChild(document.createTextNode(MASTER.slice(idx)));
+  pre.scrollTop=probe.offsetTop-pre.offsetTop-12;
+  $("promptBox").scrollIntoView({behavior:"smooth",block:"start"});
+});
+let open=false;
+$("expand").onclick=()=>{open=!open;$("promptBox").classList.toggle("open",open);$("expand").textContent=open?"Collapse":"Expand";};
+
+// toast + copy
+let tt;
+function toast(msg){const t=$("toast");t.textContent=msg;t.hidden=false;clearTimeout(tt);tt=setTimeout(()=>t.hidden=true,1800);}
+function copy(text,label,fallbackEl){
+  const done=()=>toast(label||"Copied");
+  const fb=()=>{ const ta=document.createElement("textarea"); ta.value=text; ta.setAttribute("readonly",""); ta.style.cssText="position:fixed;top:0;left:0;width:1px;height:1px;opacity:0"; document.body.appendChild(ta); ta.select(); let ok=false; try{ ok=document.execCommand("copy"); }catch(e){} document.body.removeChild(ta); if(ok){ done(); return; } if(fallbackEl){ const r=document.createRange(); r.selectNodeContents(fallbackEl); const s=getSelection(); s.removeAllRanges(); s.addRange(r); toast("Selected. Press Ctrl/Cmd + C to copy"); } else toast("Copy blocked here. Select the text manually"); };
+  try{ navigator.clipboard.writeText(text).then(done,fb); }catch(e){ fb(); }
+}
+$("copyMaster").onclick=()=>copy(MASTER,"Master prompt copied",$("promptPre"));
+$("copyMasterTop").onclick=()=>copy(MASTER,"Master prompt copied",$("promptPre"));
+
+// builder
+const MODES={full:"Follow your standard response order (1–7).",hooks:"Give me 10 hooks for this script. Focus on the hook only.",resets:"Give me 5 mid-reel resets for this script. Focus on the reset only.",ctas:"Give me 5 CTAs for this script. Focus on the CTA only.",versions:"Give me 3 completely different versions of the script."};
+const F=["genre","platform","topic","aud","lang","obj","mode","script"];
+function brief(){
+  const v=k=>$("f-"+k).value.trim();
+  return `GENRE: ${v("genre")||"[Not specified, identify it from the script]"}
+TOPIC: ${v("topic")||"[Not specified]"}
+PLATFORM: ${v("platform")}
+TARGET AUDIENCE: ${v("aud")||"[Not specified, make a reasonable assumption]"}
+LANGUAGE: ${v("lang")}
+OBJECTIVE: ${v("obj")}
+REQUEST: ${MODES[v("mode")]}
+
+ORIGINAL SCRIPT:
+${v("script")||"[PASTE SCRIPT HERE]"}`;
+}
+function render(){ $("outPre").textContent="[Master prompt: "+MASTER.split(/\s+/).length.toLocaleString()+" words, included on copy]\n\n---\n\n"+brief(); save(); }
+function save(){ try{ const o={}; F.forEach(k=>o[k]=$("f-"+k).value); localStorage.setItem("rf-form",JSON.stringify(o)); }catch(e){} }
+try{ const o=JSON.parse(localStorage.getItem("rf-form")||"null"); if(o) F.forEach(k=>{ if(o[k]!=null) $("f-"+k).value=o[k]; }); }catch(e){}
+$("form").addEventListener("input",render); $("form").addEventListener("change",render);
+$("form").addEventListener("submit",e=>e.preventDefault());
+$("copyBuilt").onclick=()=>copy(MASTER+"\n\n---\n\n"+brief(),"Prompt copied. Paste it into your AI tool",$("outPre"));
+$("clearForm").onclick=()=>{ $("form").reset(); render(); };
+render();
+
+$("quick").innerHTML=QUICK.map(q=>`<button type="button">${esc(q)}</button>`).join("");
+$("quick").addEventListener("click",e=>{const b=e.target.closest("button"); if(b) copy(b.textContent,"Copied: "+b.textContent.slice(0,32));});
+
+// checklist
+let state=[]; try{ state=JSON.parse(localStorage.getItem("rf-qc")||"[]"); }catch(e){}
+$("checks").innerHTML=QC.map((q,i)=>`<label class="check" for="qc${i}"><input type="checkbox" id="qc${i}" ${state[i]?"checked":""}><div><b>${q[0]}</b><span>${q[1]}</span></div></label>`).join("");
+function score(){ const c=[...document.querySelectorAll("#checks input")].map(x=>x.checked); $("score").innerHTML=`${c.filter(Boolean).length}/9<small>${c.every(Boolean)?"ready to shoot":"parts passing"}</small>`; try{localStorage.setItem("rf-qc",JSON.stringify(c));}catch(e){} }
+$("checks").addEventListener("change",score);
+$("resetChecks").onclick=()=>{ document.querySelectorAll("#checks input").forEach(x=>x.checked=false); score(); };
+score();
+})();
+</script>
+</body>
+</html>
